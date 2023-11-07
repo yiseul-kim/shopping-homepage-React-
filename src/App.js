@@ -1,12 +1,15 @@
-import { useState } from 'react';
-import './App.css';
-import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap';
-import data from './data';
-import { Routes, Route, Link } from 'react-router-dom';
+import { useState } from 'react'
+import './App.css'
+import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap'
+import data from './data'
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+import Detail from './routes/detail.js'
 
 function App() {
 
   let [shoes] = useState(data);
+  // hook : 유용한 것을 정리해주는 tool
+  let navigate = useNavigate();
 
   return (
     <div className="App">
@@ -15,8 +18,8 @@ function App() {
         <Container>
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/detail">detail</Nav.Link>
+            <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
+            <Nav.Link onClick={() => navigate('/detail')}>Detail</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
           </Nav>
         </Container>
@@ -39,23 +42,31 @@ function App() {
                 }
               </Row>
             </Container>
-
-            {/* react-router-dom Link 사용법 */}
-            {/* 
-            <Link to="/">홈</Link>
-            <Link to="/detail">상세페이지</Link> 
-            */}
-
-
           </>}
         />
-        <Route path="/detail" element={<div>상세페이지</div>} />
+
+        <Route path="/detail" element={<Detail />} />
+
+        {/* 지정된 페이지 이외에 접속일때 없는 페이지라는 문구 띄우기 */}
+        <Route path="*" element={<div> 없는 페이지 입니다. (404 Error) </div>} />
+
+        {/* nested Routes */}
+        <Route path="/about" element={<About />} >
+          <Route path="member" element={<div> 멤버 </div>} />  {/* /about/member */}
+          <Route path="location" element={<div> 위치정보 </div>} />  {/* /about/location */}
+        </Route>
       </Routes>
-
-
-
     </div>
   );
+}
+
+function About() {
+  return (
+    <div>
+      <h4>회사 정보임</h4>
+      <Outlet></Outlet>
+    </div>
+  )
 }
 
 function Card(props) {
