@@ -8,6 +8,9 @@ function Detail(props) {
     let { id } = useParams();
     let img = id - 1;
 
+    let 찾은상품 = props.shoes.find(
+        function (x) { return x.id == img }
+    )
 
     //가나다 정렬시 상세페이지가 불규칙해지는 문제 해결하기
     return (
@@ -21,9 +24,9 @@ function Detail(props) {
                         if (shoe.id === img) {
                             return (
                                 <div key={shoe.id}>
-                                    <h4 className="py-5">{shoe.title}</h4>
-                                    <p>{shoe.content}</p>
-                                    <p>{shoe.price}원</p>
+                                    <h4 className="py-5">{찾은상품.title}</h4>
+                                    <p>{찾은상품.content}</p>
+                                    <p>{찾은상품.price}원</p>
                                     <Button variant="danger">주문하기</Button>
                                 </div>
                             );
