@@ -22,30 +22,43 @@ function App() {
 
       <div className='main-bg' ></div>
 
+      {/* 오늘의 숙제 :
+      1. 오늘 만든 상품목록을 컴포넌트로 만들어봅시다. 컴포넌트도 길면 다른 파일로 빼도 상관없음
+      2. 컴포넌트만들면 그 안에 데이터바인딩도 아마 다시해야겠군요
+      3. 반복적인 html이나 컴포넌트를 발견하면 연습삼아 map 반복문을 써봅시다. */}
+
       <Container>
         <Row>
-          <Col>
-            {/* process.env.PUBLIC_URL로 경로를 자세히 설정 : 만약 페이지 경로를 /와 같은 
-            상대경로로 잡을 경우 서브페이지에 발행되거나 할 때 자신의 파일 경로를 잡지 못하는 경우 */}
-            <img src={process.env.PUBLIC_URL + '/logo192.png'} width="80%" />
-            <h4>{shoes[0].title}</h4>
-            <p>{shoes[0].price}</p>
-          </Col>
-          <Col>
-            <img src="https://codingapple1.github.io/shop/shoes2.jpg" width="80%" />
-            <h4>{shoes[1].title}</h4>
-            <p>{shoes[1].price}</p>
-          </Col>
-          <Col>
-            <img src="https://codingapple1.github.io/shop/shoes3.jpg" width="80%" />
-            <h4>{shoes[2].title}</h4>
-            <p>{shoes[2].price}</p>
-          </Col>
+          {
+            shoes.map((a, i) => {
+              return (
+                <Card shoes={shoes[i]} i={i} />
+              )
+            })
+          }
+
+          {/* 
+           - map을 쓰기 전 -
+          <Card shoes={shoes[0]} i={1} />
+          <Card shoes={shoes[1]} i={2} />
+          <Card shoes={shoes[2]} i={3} /> 
+          */}
         </Row>
       </Container>
 
     </div>
   );
+}
+
+function Card(props) {
+  return (
+    <Col>
+      <img src={'https://codingapple1.github.io/shop/shoes' + (props.i+1) + '.jpg'}
+        width="80%" />
+      <h5>{props.shoes.title}</h5>
+      <p>{props.shoes.price}</p>
+    </Col>
+  )
 }
 
 export default App;
